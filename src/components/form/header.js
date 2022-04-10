@@ -1,28 +1,40 @@
 import React from "react";
-import styles from "./header.module.scss";
+import { Steps } from "antd";
+import { Col } from "react-bootstrap";
+import "antd/dist/antd.css";
+import { steps } from "./constants";
+import CvForm from "./form";
 
-const Header = () => {
-  const [isActive, setIsActive] = React.useState(false);
+const Header = ({ generate }) => {
+  const { Step } = Steps;
+  const [current, setCurrent] = React.useState(0);
 
-  const nextStep = () => {
-    setIsActive((prev) => !prev);
+  const IconComponent = (props) => {
+    const Icon = props.icon;
+    return <Icon />;
   };
+
   return (
-    <div className={styles.dots}>
-      {[...Array(4)].map((value, idx) => {
-        return (
-          <React.Fragment key={idx}>
-            <div className={styles.dot}>
-              <div
-                className={isActive ? styles.active : null}
-                onClick={nextStep}
-              />
-            </div>
-            {idx < 3 && <span className={styles.line} />}
-          </React.Fragment>
-        );
-      })}
-    </div>
+    <>
+      <Steps current={current}>
+        {steps.map((item, index) => (
+          <Step
+            key={index}
+            title={item.title}
+            icon={<IconComponent icon={item.icon} />}
+          />
+        ))}
+      </Steps>
+      <Col className="mt-5">
+        <div className="steps-content">
+          <CvForm
+            generate={generate}
+            current={current}
+            setCurrent={setCurrent}
+          />
+        </div>
+      </Col>
+    </>
   );
 };
 

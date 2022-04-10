@@ -8,28 +8,14 @@ import {
   TextRun,
 } from "docx";
 import { saveAs } from "file-saver";
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import styles from "./App.module.scss";
 import Header from "./components/form/header";
-import EducationSection from "./components/form/EducationForm";
-import PersonalForm from "./components/form/PersonalForm";
 import { Row, Col } from "react-bootstrap";
 import cvTemplate from "../src/assests/resume-template-1.jpg";
-import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import { addPersonalInfo } from "./redux/actions";
 
 function App() {
   const data = {
-    personalInfo: {
-      firstName: "sara",
-      lastName: "mamdouh",
-      phone: "01128764846",
-      address: "faisal-giza",
-      email: "smamdouh.1995@gmail.com",
-      summary:
-        "Self-motivated and cheerful web developer professional with 2+ years of experience helping customers navigate websites and resolving product and service issues. Eager to support BookMe in building an impeccable online reputation by providing top-class customer support. Received 98.9% positive ratings at GHI Inc. where customer retention for my regular call-ins was 25% above the company average.",
-    },
     education: [
       {
         degree: "Master of Science (MSc)",
@@ -401,45 +387,13 @@ function App() {
       console.log("Document created successfully");
     });
   };
-  const [stepIndex, setStepIndex] = React.useState(0);
-  const steps = [PersonalForm, EducationSection];
-  const CurrentStep = steps[stepIndex];
-  const dispatch = useDispatch();
-  const onSubmit = React.useCallback(
-    (payload) => {
-      dispatch(addPersonalInfo(payload));
-    },
-    [dispatch]
-  );
-  const formik = useFormik({
-    initialValues: {},
-    validationSchema: {},
-    onSubmit,
-  });
 
   return (
     <div className="App">
       <Container className={styles.container}>
-        <Header />
         <Row>
-          <Col className="mt-5">
-            <CurrentStep formik={formik} />
-            {stepIndex === 4 ? (
-              <button type="button" onClick={generate}>
-                generate
-              </button>
-            ) : (
-              <Button
-                type="submit"
-                className="float-right"
-                onClick={() => {
-                  setStepIndex((prev) => prev + 1);
-                }}
-              >
-                Next
-              </Button>
-            )}
-          </Col>
+          <Header generate={generate} />
+
           <Col>
             <img src={cvTemplate} alt="cv template" className="w-100" />
           </Col>

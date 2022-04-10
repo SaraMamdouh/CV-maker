@@ -1,4 +1,5 @@
-import React from "react";
+import { getIn } from "formik";
+import React, { useMemo } from "react";
 import { Form, Col } from "react-bootstrap";
 import { Types } from "./components";
 const InputGroup = ({
@@ -6,32 +7,28 @@ const InputGroup = ({
   label,
   type,
   name,
-  value,
-  error,
   onChange,
   formik,
+  hasLabel = true,
+  testId,
   props,
 }) => {
-  const InputTypes = ({ name, value, onChange, error, props }) => {
-    const Component = Types[type];
-    return (
-      <Component
+  const value = getIn(formik.values, name);
+  const error = getIn(formik.errors, name);
+  const [InputType] = useMemo(() => {
+    return [Types[type]];
+  }, [type]);
+
+  return (
+    <Form.Group as={Col} xs={xs} className="position-relative">
+      {hasLabel && <Form.Label>{label}</Form.Label>}
+      <InputType
+        testId={testId}
         name={name}
         value={value}
         onChange={onChange ? onChange : formik.handleChange}
         error={error}
-        {...props}
-      />
-    );
-  };
-  return (
-    <Form.Group as={Col} md={xs} className="position-relative">
-      <Form.Label>{label}</Form.Label>
-      <InputTypes
-        name={name}
-        value={value}
-        onChange={onChange}
-        error={error}
+        label={label}
         {...props}
       />
       <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>

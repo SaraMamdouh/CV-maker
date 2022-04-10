@@ -22,6 +22,7 @@ const EducationForm = ({ formik, index, removeSection }) => {
         xs={6}
         type="text"
         label="degree"
+        testId="degree"
         name={`education[${index}].degree`}
         formik={formik}
       />
@@ -35,12 +36,14 @@ const EducationForm = ({ formik, index, removeSection }) => {
         xs={12}
         type="text"
         label="field Of Study"
+        testId="fieldOfStudy"
         name={`education[${index}].fieldOfStudy`}
         formik={formik}
       />
       <InputGroup
         xs={12}
         type="textarea"
+        testId="notes"
         label="notes"
         name={`education[${index}].notes`}
         formik={formik}
@@ -82,9 +85,8 @@ const EducationSection = ({ formik }) => {
 
   const removeSection = React.useCallback(
     (index) => {
-      const currentSection = [...formik?.values?.education].splice(index + 1);
+      const currentSection = [...formik?.values?.education].slice(index + 1);
       formik.setFieldValue("education", currentSection);
-      console.log(index, formik.values.education, currentSection);
     },
     [formik]
   );

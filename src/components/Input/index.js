@@ -10,6 +10,7 @@ const InputGroup = ({
   onChange,
   formik,
   hasLabel = true,
+  testId,
   props,
 }) => {
   const value = getIn(formik.values, name);
@@ -22,6 +23,7 @@ const InputGroup = ({
     <Form.Group as={Col} xs={xs} className="position-relative">
       {hasLabel && <Form.Label>{label}</Form.Label>}
       <InputType
+        testId={testId}
         name={name}
         value={value}
         onChange={onChange ? onChange : formik.handleChange}

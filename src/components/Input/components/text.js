@@ -1,9 +1,10 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Text = ({ type, name, value, error, onChange, props }) => {
+const Text = ({ type, name, value, error, onChange, testId, props }) => {
   return (
     <Form.Control
+      data-testId={testId}
       type={type}
       name={name}
       value={value || ""}

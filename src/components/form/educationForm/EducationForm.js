@@ -10,7 +10,7 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         xs={6}
         type="text"
         label="degree"
-        name="education.degree"
+        name={`education[${index}].degree`}
         formik={formik}
       />
       {index > 0 ? (
@@ -23,14 +23,14 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         xs={12}
         type="text"
         label="field Of Study"
-        name="education.fieldOfStudy"
+        name={`education[${index}].fieldOfStudy`}
         formik={formik}
       />
       <InputGroup
         xs={12}
         type="textarea"
         label="notes"
-        name="education.notes"
+        name={`education[${index}].notes`}
         formik={formik}
       />
 
@@ -38,7 +38,7 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         xs={12}
         type="text"
         label="school Name"
-        name="education.schoolName"
+        name={`education[${index}].schoolName`}
         formik={formik}
       />
 
@@ -46,7 +46,7 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         xs={3}
         type="date"
         label="start Date"
-        name="education.startDate"
+        name={`education[${index}].startDate`}
         formik={formik}
       />
 
@@ -54,17 +54,17 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         xs={3}
         type="date"
         label="end Date"
-        name="education.endDate"
+        name={`education[${index}].endDate`}
         formik={formik}
       />
     </Row>
   );
 };
 const EducationSection = ({ formik }) => {
-  const AddSection = () => {
-    formik.values.education.push(formik.initialValues.education);
-  };
-
+  const AddSection = React.useCallback(() => {
+    formik?.values?.education?.push(...formik.initialValues.education);
+  }, [formik]);
+  console.log(formik?.values);
   return (
     <>
       <Col md={12} className="mb-4">
@@ -81,7 +81,7 @@ const EducationSection = ({ formik }) => {
       </Col>
       <Col md={12}>
         {formik.values.education?.map((section, index) => {
-          return <EducationForm formik={formik} index={index} />;
+          return <EducationForm key={index} formik={formik} index={index} />;
         })}
       </Col>
     </>

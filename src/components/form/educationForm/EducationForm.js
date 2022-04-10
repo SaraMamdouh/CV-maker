@@ -3,7 +3,19 @@ import React from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import InputGroup from "../../Input";
 
-const EducationForm = ({ formik, index, handleRemove }) => {
+const eductionDefaultValues = {
+  degree: "",
+  fieldOfStudy: "",
+  notes: "",
+  schoolName: "",
+  startDate: "",
+  endDate: "",
+};
+
+const EducationForm = ({ formik, index, removeSection }) => {
+  const handleRemove = React.useCallback(() => {
+    removeSection(index);
+  }, [removeSection, index]);
   return (
     <Row className="mb-3">
       <InputGroup
@@ -13,7 +25,7 @@ const EducationForm = ({ formik, index, handleRemove }) => {
         name={`education[${index}].degree`}
         formik={formik}
       />
-      {index > 0 ? (
+      {formik?.values?.education?.length > 1 ? (
         <Col xs={6} className="text-right">
           <BsFillTrashFill className="lead" onClick={handleRemove} />
         </Col>
@@ -62,9 +74,20 @@ const EducationForm = ({ formik, index, handleRemove }) => {
 };
 const EducationSection = ({ formik }) => {
   const AddSection = React.useCallback(() => {
-    formik?.values?.education?.push(...formik.initialValues.education);
+    formik.setFieldValue("education", [
+      ...formik?.values?.education,
+      eductionDefaultValues,
+    ]);
   }, [formik]);
-  console.log(formik?.values);
+
+  const removeSection = React.useCallback(
+    (index) => {
+      const currentSection = [...formik?.values?.education].splice(index + 1);
+      formik.setFieldValue("education", currentSection);
+      console.log(index, formik.values.education, currentSection);
+    },
+    [formik]
+  );
   return (
     <>
       <Col md={12} className="mb-4">
@@ -81,7 +104,14 @@ const EducationSection = ({ formik }) => {
       </Col>
       <Col md={12}>
         {formik.values.education?.map((section, index) => {
-          return <EducationForm key={index} formik={formik} index={index} />;
+          return (
+            <EducationForm
+              key={index}
+              formik={formik}
+              index={index}
+              removeSection={removeSection}
+            />
+          );
         })}
       </Col>
     </>

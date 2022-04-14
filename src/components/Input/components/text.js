@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap";
 const Text = ({ type, name, value, error, onChange, testId, props }) => {
   return (
     <Form.Control
-      data-testId={testId}
+      data-testid={testId}
       type={type}
       name={name}
       value={value || ""}

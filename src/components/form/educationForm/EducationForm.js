@@ -2,6 +2,8 @@ import { Button, Col, Row } from "react-bootstrap";
 import React from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import InputGroup from "../../Input";
+import styles from "./educationForm.module.scss";
+import classnames from "classnames";
 
 const eductionDefaultValues = {
   degree: "",
@@ -28,7 +30,11 @@ const EducationForm = ({ formik, index, removeSection }) => {
       />
       {formik?.values?.education?.length > 1 ? (
         <Col xs={6} className="text-right">
-          <BsFillTrashFill className="lead" onClick={handleRemove} />
+          <BsFillTrashFill
+            className={classnames(styles.pointer, "lead")}
+            onClick={handleRemove}
+            data-testid="remove-icon"
+          />
         </Col>
       ) : null}
 
@@ -93,7 +99,6 @@ const EducationSection = ({ formik }) => {
     },
     [formik]
   );
-  console.log(formik.values.education);
 
   return (
     <>

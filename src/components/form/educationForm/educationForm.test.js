@@ -6,6 +6,14 @@ import { renderHook } from "@testing-library/react-hooks";
 
 let component = {},
   formik = {};
+const eductionDefaultValues = {
+  degree: "",
+  fieldOfStudy: "",
+  notes: "",
+  schoolName: "",
+  startDate: "",
+  endDate: "",
+};
 
 formik = renderHook(() =>
   useFormik({
@@ -59,14 +67,6 @@ describe("eduction form component", () => {
   });
 
   it("should add section on click on add section Button", async () => {
-    const eductionDefaultValues = {
-      degree: "",
-      fieldOfStudy: "",
-      notes: "",
-      schoolName: "",
-      startDate: "",
-      endDate: "",
-    };
     formik.setFieldValue = jest.fn();
     renderComponent(formik);
     await waitFor(() => fireEvent.click(component.addSectionButton));
@@ -75,8 +75,22 @@ describe("eduction form component", () => {
       ...formik.values.education,
       eductionDefaultValues,
     ]);
+  });
+  it("should has remove button when education values are greater than 1", async () => {
+    formik.initialValues.education = [
+      ...formik.initialValues.education,
+      eductionDefaultValues,
+    ];
     renderComponent(formik);
-    // console.log(formik.values.education);
-    //expect(formik.values.education.length).toBe(2);
+    const icon = screen.getAllByTestId("remove-icon");
+    const removeIcon = icon[0];
+    expect(removeIcon).toBeInTheDocument();
+    expect(icon.length).toBe(2);
+    formik.setFieldValue = jest.fn();
+    renderComponent(formik);
+    await waitFor(() => fireEvent.click(removeIcon));
+    expect(formik.setFieldValue).toBeCalledWith("education", [
+      eductionDefaultValues,
+    ]);
   });
 });

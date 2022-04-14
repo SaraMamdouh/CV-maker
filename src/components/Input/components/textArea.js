@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap";
 const TextArea = ({ name, value, error, onChange, testId, props }) => {
   return (
     <Form.Control
-      data-testId={testId}
+      data-testid={testId}
       as={"textarea"}
       name={name}
       value={value || ""}

@@ -52,6 +52,7 @@ const EducationForm = ({ formik, index, removeSection }) => {
       <InputGroup
         xs={12}
         type="text"
+        testId={"schoolName"}
         label="school Name"
         name={`education[${index}].schoolName`}
         formik={formik}
@@ -60,6 +61,7 @@ const EducationForm = ({ formik, index, removeSection }) => {
       <InputGroup
         xs={3}
         type="date"
+        testId={"startDate"}
         label="start Date"
         name={`education[${index}].startDate`}
         formik={formik}
@@ -67,6 +69,7 @@ const EducationForm = ({ formik, index, removeSection }) => {
 
       <InputGroup
         xs={3}
+        testId={"endDate"}
         type="date"
         label="end Date"
         name={`education[${index}].endDate`}
@@ -90,6 +93,8 @@ const EducationSection = ({ formik }) => {
     },
     [formik]
   );
+  console.log(formik.values.education);
+
   return (
     <>
       <Col md={12} className="mb-4">
@@ -105,7 +110,7 @@ const EducationSection = ({ formik }) => {
         </Row>
       </Col>
       <Col md={12}>
-        {formik.values.education?.map((section, index) => {
+        {formik?.values?.education?.map((section, index) => {
           return (
             <EducationForm
               key={index}

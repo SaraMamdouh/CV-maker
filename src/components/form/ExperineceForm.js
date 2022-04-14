@@ -1,6 +1,5 @@
 import { Button, Col, Row, Form } from "react-bootstrap";
 import React from "react";
-import styles from "./header.module.scss";
 import InputGroup from "../Input";
 
 const ExperienceForm = ({ formik, experience }) => {

@@ -1,9 +1,9 @@
 import { DatePicker, Space } from "antd";
 
-const Date = ({ onChange }) => {
+const Date = ({ onChange, testId }) => {
   return (
     <Space direction="vertical">
-      <DatePicker onChange={onChange} />
+      <DatePicker onChange={onChange} data-testid={testId} />
     </Space>
   );
 };
